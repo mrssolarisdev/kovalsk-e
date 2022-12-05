@@ -2,3 +2,4 @@ venv
 poetry.lock
 # Ignore dynaconf secret files
 .secrets.*
+__pycache__
