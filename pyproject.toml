@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "kovalsk-e"
+version = "0.1.0"
+description = "A complete system with everything that a normal person would like to have at home."
+authors = ["Marcela <mrssolaris.dev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "kovalsk_e"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.28.1"
+dynaconf = "^3.1.11"
+
+[tool.poetry.group.dev.dependencies]
+selenium = "^4.7.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
