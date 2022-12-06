@@ -1,2 +1,2 @@
-[scrapper]
-WEBDRIVER_PATH = 'C:/Users/celin/AppData/Local/Temp/Rar$EXa16876.24314/chromedriver'
+[web_scrapper]
+HEADLESS = false
