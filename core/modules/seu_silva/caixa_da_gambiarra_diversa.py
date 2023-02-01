@@ -32,3 +32,7 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
         crop = original_image[y:y+h, x:x+w]
         # Writting the object into an image.
         cv2.imwrite(f"{save_into}/sticker{i}.png", crop)
+    # TODO: That is mostly because I need it RN, but it could very well be a function that instead of saving individually, saves them into a zip file.
+
+if __name__ == "__main__":
+    crop_stickers_from_sheet()
