@@ -16,7 +16,7 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
     return: None
     """
     # The image containing the contoured objects makes possible that we find them
-    contoured_image = cv2.imread(contoured_image_path)
+    contoured_image = cv2.imread(contoured_image_path, cv2.IMREAD_UNCHANGED)
     # We will cut the objects found in the specific positions in the contoured image, from the original one, so that we don't bring the contours.
     original_image = cv2.imread(original_image_path)
     original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2BGRA)
@@ -50,7 +50,7 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
         # Writting the object into an image.
         if height > 10 and width > 10:
             cv2.imwrite(f"{save_into}\sticker{i}_{timestamp}.png", crop)
-    # TODO: That is mostly because I need it RN, but it could very well be a function that instead of saving individually, saves them into a zip file.
+    # # TODO: That is mostly because I need it RN, but it could very well be a function that instead of saving individually, saves them into a zip file.
 
 if __name__ == "__main__":
     # for i in range(1,6):
