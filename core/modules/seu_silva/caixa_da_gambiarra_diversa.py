@@ -1,13 +1,15 @@
-import cv2
-import logging
 import os
 import time
+import zipfile
+from io import BytesIO
+
+import cv2
+import logging
 import numpy as np
 
 def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str, save_into: str) -> None:
     """
     Gets an image having contoured objects to be identified and saved individually as png files.
-
     param: contoured_image_path: The image containing the contoured objects.
     param: original_image_path: The original image that doesn't have contoured objects. The 
     identified objects from the contoured image will be cut out from the original one, in order
@@ -40,20 +42,25 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
     original_image[black_indexes] = [0, 0, 0, 0]
     logging.info(f"{len(contours)} objects found, writting objects..")
     timestamp = time.time()
-    for i, cnt in enumerate(contours):
-        # Positions of the found contoured object
-        x, y, w, h = cv2.boundingRect(cnt)
-        # Cropping the object from the original image, but using the found positions from the contoured one.
-        crop = original_image[y:y+h, x:x+w]
-        # Size of the image
-        height, width, _ = crop.shape
-        # Writting the object into an image.
-        if height > 10 and width > 10:
-            cv2.imwrite(f"{save_into}\sticker{i}_{timestamp}.png", crop)
-    # # TODO: That is mostly because I need it RN, but it could very well be a function that instead of saving individually, saves them into a zip file.
+    with zipfile.ZipFile(f"{save_into}/stickers_zip.zip", mode="w") as stickers_zip:
+        for i, cnt in enumerate(contours):
+            # Positions of the found contoured object
+            x, y, w, h = cv2.boundingRect(cnt)
+            # Cropping the object from the original image, but using the found positions from the contoured one.
+            crop = original_image[y:y+h, x:x+w]
+            # Size of the image
+            height, width, _ = crop.shape
+            # Writting the object into an image.
+            if height > 10 and width > 10:
+                # Encoding the subimage as a png one.
+                _, buffer = cv2.imencode('.png', crop)
+                # Writing the image into the zip.
+                stickers_zip.writestr(f"sticker{i}_{timestamp}.png", buffer)
 
 if __name__ == "__main__":
-    # for i in range(1,6):
-    contoured_path = f"Contoureds\contoured_6.png"
-    original_path = f"Originals\original_6.png"
-    crop_stickers_from_sheet(contoured_image_path=contoured_path, original_image_path=original_path, save_into="Individuals")
+    func_parameters = {
+        "contoured_image_path": f"Contoureds\contoured_1.png",
+        "original_image_path": f"Originals\original_1.png",
+        "save_into": f"{os.path.abspath(os.path.sep)}\Stickers"
+    }
+    crop_stickers_from_sheet(**func_parameters)
