@@ -1,7 +1,6 @@
-import os
+import sys
 import time
 import zipfile
-from io import BytesIO
 
 import cv2
 import logging
@@ -58,9 +57,5 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
                 stickers_zip.writestr(f"sticker{i}_{timestamp}.png", buffer)
 
 if __name__ == "__main__":
-    func_parameters = {
-        "contoured_image_path": f"Contoureds\contoured_1.png",
-        "original_image_path": f"Originals\original_1.png",
-        "save_into": f"{os.path.abspath(os.path.sep)}\Stickers"
-    }
-    crop_stickers_from_sheet(**func_parameters)
+    # Taking off the name of the script and passing in the rest
+    crop_stickers_from_sheet(*sys.argv[1:])
