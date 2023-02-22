@@ -41,6 +41,7 @@ def crop_stickers_from_sheet(contoured_image_path: str, original_image_path: str
     original_image[black_indexes] = [0, 0, 0, 0]
     logging.info(f"{len(contours)} objects found, writting objects..")
     timestamp = time.time()
+    # TODO: refactor this part. I could maybe create a function just to create zips using a decorator so that I could pass the inner behaviour of the function.
     with zipfile.ZipFile(f"{save_into}/stickers_zip.zip", mode="w") as stickers_zip:
         for i, cnt in enumerate(contours):
             # Positions of the found contoured object
