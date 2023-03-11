@@ -20,6 +20,7 @@ opencv-python = "^4.7.0.68"
 matplotlib = "^3.6.3"
 fastapi = "^0.93.0"
 uvicorn = {extras = ["standard"], version = "^0.20.0"}
+sqlalchemy = "^2.0.5.post1"
 
 [tool.poetry.group.dev.dependencies]
 selenium = "^4.7.2"
